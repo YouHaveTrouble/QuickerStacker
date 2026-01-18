@@ -6,9 +6,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.BlockPosition;
-import com.hypixel.hytale.protocol.InteractionSyncData;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.Inventory;
@@ -34,15 +32,12 @@ public class QuickStackToChestInteraction extends SimpleBlockInteraction {
         Ref<EntityStore> ref = interactionContext.getEntity();
         Player player = ref.getStore().getComponent(ref, Player.getComponentType());
         if (player == null) return;
-        InteractionSyncData clientState = interactionContext.getClientState();
-        if (clientState == null) return;
-        BlockPosition targetBlockPosition = clientState.blockPosition;
+        BlockPosition targetBlockPosition = interactionContext.getTargetBlock();
         if (targetBlockPosition == null) return;
         WorldChunk chunk = world.getChunk(ChunkUtil.indexChunkFromBlock(targetBlockPosition.x, targetBlockPosition.z));
         if (chunk == null) return;
         var blockState = chunk.getState(targetBlockPosition.x, targetBlockPosition.y, targetBlockPosition.z);
         if (!(blockState instanceof ItemContainerState containerState)) return;
-
         Inventory playerInventory = player.getInventory();
         if (playerInventory == null) return;
         playerInventory.getCombinedHotbarFirst().quickStackTo(containerState.getItemContainer());
