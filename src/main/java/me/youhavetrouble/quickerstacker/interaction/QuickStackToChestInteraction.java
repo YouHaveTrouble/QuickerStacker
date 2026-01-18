@@ -34,7 +34,6 @@ public class QuickStackToChestInteraction extends SimpleBlockInteraction {
         Ref<EntityStore> ref = interactionContext.getEntity();
         Player player = ref.getStore().getComponent(ref, Player.getComponentType());
         if (player == null) return;
-        NotificationUtil.sendNotification(player.getPlayerRef().getPacketHandler(), "Interaction is happening.");
         InteractionSyncData clientState = interactionContext.getClientState();
         if (clientState == null) return;
         BlockPosition targetBlockPosition = clientState.blockPosition;
