@@ -1,0 +1,13 @@
+{
+  "Type": "Charging",
+  "DisplayProgress": true,
+  "Next": {
+    "0.1": "Yht_QuickerStacker_QuickStackToChest",
+    "1": "Yht_QuickerStacker_QuickStackToNearbyChests"
+  },
+  "Cooldown": {
+    "Id": "Yht_QuickerStacker_QuickStack",
+    "Cooldown": 0.25
+  },
+  "RequireNewClick": true
+}
