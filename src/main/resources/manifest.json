@@ -1,7 +1,7 @@
 {
   "Group": "me.youhavetrouble.quickerstacker",
   "Name": "QuickerStacker",
-  "Version": "1.0.0",
+  "Version": "${project.version}",
   "Description": "Quick stack everything!",
   "Authors": [
     {
