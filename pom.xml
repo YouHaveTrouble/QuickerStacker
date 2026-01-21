@@ -6,7 +6,7 @@
 
     <groupId>me.youhavetrouble.quickerstacker</groupId>
     <artifactId>QuickerStacker</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
