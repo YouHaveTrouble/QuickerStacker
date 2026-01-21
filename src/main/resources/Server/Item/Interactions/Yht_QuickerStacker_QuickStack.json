@@ -2,7 +2,8 @@
   "Type": "Charging",
   "DisplayProgress": true,
   "Next": {
-    "0.1": "Yht_QuickerStacker_QuickStackToChest",
+    "0": "Yht_QuickerStacker_QuickStackToChest",
+    "0.15": "Simple",
     "1": "Yht_QuickerStacker_QuickStackToNearbyChests"
   },
   "Cooldown": {
