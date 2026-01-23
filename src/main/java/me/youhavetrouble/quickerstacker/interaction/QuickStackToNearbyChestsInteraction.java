@@ -2,6 +2,7 @@ package me.youhavetrouble.quickerstacker.interaction;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
@@ -24,7 +25,9 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.cli
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
+import com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule;
 import com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState;
+import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import me.youhavetrouble.quickerstacker.QuickerStacker;
@@ -85,6 +88,8 @@ public class QuickStackToNearbyChestsInteraction extends SimpleBlockInteraction 
         TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
         if (transformComponent == null) return foundContainers;
         Vector3d position = transformComponent.getPosition();
+        ComponentType<ChunkStore, ItemContainerState> stashComponentType = BlockStateModule.get().getComponentType(ItemContainerState.class);
+        if (stashComponentType == null) return foundContainers;
         for (int x = -range; x <= range; x++) {
             for (int y = -range; y < range; y++) {
                 for (int z = -range; z <= range; z++) {
@@ -97,13 +102,14 @@ public class QuickStackToNearbyChestsInteraction extends SimpleBlockInteraction 
                     ) continue;
                     WorldChunk chunk = world.getChunk(ChunkUtil.indexChunkFromBlock(position.getX() + x, position.getZ() + z));
                     if (chunk == null) continue;
-                    var blockState = chunk.getState((int) position.getX() + x, (int) position.getY() + y, (int) position.getZ() + z);
-                    if (!(blockState instanceof ItemContainerState containerState)) continue;
+                    Ref<ChunkStore> blockRef = chunk.getBlockComponentEntity((int) position.getX() + x, (int) position.getY() + y, (int) position.getZ() + z);
+                    if (blockRef == null) continue;
+                    ItemContainerState containerState = blockRef.getStore().getComponent(blockRef, stashComponentType);
+                    if (containerState == null) continue;
                     foundContainers.add(containerState);
                 }
             }
         }
-
         return foundContainers;
     }
 }
