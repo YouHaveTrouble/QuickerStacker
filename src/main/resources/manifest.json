@@ -10,7 +10,7 @@
       "Url": "https://yht.one"
     }
   ],
-  "ServerVersion": "*",
+  "ServerVersion": "${hytale.version}",
   "Dependencies": {},
   "OptionalDependencies": {},
   "DisabledByDefault": false,

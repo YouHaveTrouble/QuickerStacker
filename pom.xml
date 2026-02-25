@@ -6,12 +6,13 @@
 
     <groupId>me.youhavetrouble.quickerstacker</groupId>
     <artifactId>QuickerStacker</artifactId>
-    <version>1.3.0</version>
+    <version>1.2.1</version>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hytale.version>2026.02.19-1a311a592</hytale.version>
     </properties>
 
     <build>
@@ -41,7 +42,8 @@
         <dependency>
             <groupId>com.hypixel.hytale</groupId>
             <artifactId>Server</artifactId>
-            <version>2026.02.19-1a311a592</version>
+            <version>${hytale.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
