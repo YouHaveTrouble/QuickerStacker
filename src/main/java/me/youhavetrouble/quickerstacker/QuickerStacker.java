@@ -2,6 +2,7 @@ package me.youhavetrouble.quickerstacker;
 
 
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.event.EventPriority;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
@@ -25,6 +26,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class QuickerStacker extends JavaPlugin {
 
@@ -53,19 +55,19 @@ public class QuickerStacker extends JavaPlugin {
                         QuickStackToNearbyChestsInteraction.CODEC
                 );
 
-        this.getEventRegistry().registerGlobal(BootEvent.class, (event) -> {
+        this.getEventRegistry().registerGlobal(EventPriority.LAST, BootEvent.class, (event) -> {
             for (BlockType block : BlockType.getAssetMap().getAssetMap().values()) {
-                if (!"Open_Container".equals(block.getInteractions().get(InteractionType.Use))) continue;
+                if (!isBlockContainer(block)) continue;
                 try {
                     Field interactionsField = block.getClass().getDeclaredField("interactions");
                     interactionsField.setAccessible(true);
                     Object interactionsObj = interactionsField.get(block);
                     if (!(interactionsObj instanceof Map<?,?> interactionsMap)) continue;
                     Map<Object, Object> modifiableMap = new HashMap<>(interactionsMap);
-                    modifiableMap.put(InteractionType.Secondary, "Yht_QuickerStacker_QuickStack");
+                    modifiableMap.putIfAbsent(InteractionType.Secondary, "Yht_QuickerStacker_QuickStack");
                     interactionsField.set(block, modifiableMap);
                 } catch (NoSuchFieldException | IllegalAccessException _) {
-                    System.out.println("Error modifying interactions for block type: " + block.getId());
+                    getLogger().at(Level.WARNING).log("Error modifying interactions for block type: %s", block.getId());
                     continue;
                 }
             }
@@ -82,7 +84,7 @@ public class QuickerStacker extends JavaPlugin {
      * @param z z
      * @return true if the player can interact with the block, false otherwise
      */
-    public static boolean canInteractWithBlock(Ref<EntityStore> ref, World world, int x, int y, int z){
+    public static boolean canInteractWithBlock(Ref<EntityStore> ref, World world, int x, int y, int z) {
         Player player = ref.getStore().getComponent(ref, Player.getComponentType());
         if (player == null) return false;
         PlayerRef playerRef = ref.getStore().getComponent(ref, PlayerRef.getComponentType());
@@ -92,6 +94,11 @@ public class QuickerStacker extends JavaPlugin {
         var event = new UseBlockEvent.Pre(InteractionType.Use, InteractionContext.forProxyEntity(interactionManager, player, ref), new Vector3i(x, y, z), blockType);
         ref.getStore().invoke(ref, event);
         return !event.isCancelled();
+    }
+
+    private static boolean isBlockContainer(BlockType blockType) {
+        if ("Open_Container".equals(blockType.getInteractions().get(InteractionType.Use))) return true;
+        return false;
     }
 
 }
