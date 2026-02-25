@@ -1,6 +1,6 @@
 {
-  "Group": "me.youhavetrouble.quickerstacker",
-  "Name": "QuickerStacker",
+  "Group": "YouHaveTrouble",
+  "Name": "${artifactId}",
   "Version": "${project.version}",
   "Description": "Quick stack everything!",
   "Authors": [
@@ -15,5 +15,5 @@
   "OptionalDependencies": {},
   "DisabledByDefault": false,
   "IncludesAssetPack": true,
-  "Main": "me.youhavetrouble.quickerstacker.QuickerStacker"
+  "Main": "${project.groupId}.${artifactId}"
 }

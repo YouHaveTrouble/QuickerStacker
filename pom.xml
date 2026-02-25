@@ -6,13 +6,22 @@
 
     <groupId>me.youhavetrouble.quickerstacker</groupId>
     <artifactId>QuickerStacker</artifactId>
-    <version>1.2.1</version>
+    <version>${revision}</version>
+    <packaging>jar</packaging>
+
+    <developers>
+        <developer>
+            <name>YouHaveTrouble</name>
+            <url>https://yht.one</url>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hytale.version>2026.02.19-1a311a592</hytale.version>
+        <revision>1.2.1</revision>
     </properties>
 
     <build>
