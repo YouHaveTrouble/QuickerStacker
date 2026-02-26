@@ -17,6 +17,8 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.util.Config;
+import me.youhavetrouble.quickerstacker.config.QuickerStackerConfig;
 import me.youhavetrouble.quickerstacker.interaction.QuickStackInteraction;
 import me.youhavetrouble.quickerstacker.interaction.QuickStackToChestInteraction;
 import me.youhavetrouble.quickerstacker.interaction.QuickStackToNearbyChestsInteraction;
@@ -30,12 +32,16 @@ import java.util.logging.Level;
 
 public class QuickerStacker extends JavaPlugin {
 
+    private final Config<QuickerStackerConfig> config = this.withConfig("QSConfig", QuickerStackerConfig.CODEC);
+
     public QuickerStacker(@NonNullDecl JavaPluginInit init) {
         super(init);
     }
 
     @Override
     public void setup() {
+        config.save();
+
         this.getCodecRegistry(Interaction.CODEC)
                 .register(
                         "Yht_QuickerStacker_QuickStack",
@@ -96,9 +102,8 @@ public class QuickerStacker extends JavaPlugin {
         return !event.isCancelled();
     }
 
-    private static boolean isBlockContainer(BlockType blockType) {
-        if ("Open_Container".equals(blockType.getInteractions().get(InteractionType.Use))) return true;
-        return false;
+    private boolean isBlockContainer(BlockType blockType) {
+        return config.get().getQuickStackContainers().contains(blockType.getInteractions().get(InteractionType.Use));
     }
 
 }
