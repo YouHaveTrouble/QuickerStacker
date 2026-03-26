@@ -12,8 +12,9 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.packets.interface_.NotificationStyle;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
 import com.hypixel.hytale.server.core.inventory.transaction.ListTransaction;
@@ -52,12 +53,11 @@ public class QuickStackToNearbyChestsInteraction extends SimpleBlockInteraction 
         if (targetBlockPosition == null) return;
         Collection<ItemContainerBlock> nearbyContainers = getNearbyContainers(world, ref, ref.getStore(), 10);
         if (nearbyContainers.isEmpty()) return;
-        Inventory playerInventory = player.getInventory();
-        if (playerInventory == null) return;
+        CombinedItemContainer playerInventory = InventoryComponent.getCombined(commandBuffer, ref, InventoryComponent.HOTBAR_FIRST);
         int itemsMoved = 0;
         for (ItemContainerBlock containerState : nearbyContainers) {
             ItemContainer itemContainer = containerState.getItemContainer();
-            ListTransaction<MoveTransaction<ItemStackTransaction>> transaction = playerInventory.getCombinedHotbarFirst().quickStackTo(itemContainer);
+            ListTransaction<MoveTransaction<ItemStackTransaction>> transaction = playerInventory.quickStackTo(itemContainer);
             for (var tr : transaction.getList()) {
                 ItemStack item = tr.getAddTransaction().getQuery();
                 if (item == null) continue;
