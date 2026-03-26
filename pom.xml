@@ -21,7 +21,7 @@
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hytale.version>2026.03.26-89796e57b</hytale.version>
-        <revision>1.4.0</revision>
+        <revision>1.4.1</revision>
     </properties>
 
     <build>
