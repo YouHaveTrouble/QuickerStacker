@@ -18,7 +18,7 @@ public class QuickerStackerConfig {
             .append(new KeyedCodec<>("QuickStackInteractions", Codec.STRING_ARRAY),
                     (config, value) -> {
                         config.quickStackInteractions = value;
-                        config.quickStackInteractionSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(config.quickStackInteractions)));
+                        config.quickStackInteractionSet = new HashSet<>(Arrays.asList(config.quickStackInteractions));
                     },
                     (config) -> config.quickStackInteractions)
             .documentation("List of interaction IDs that when detected on a block will cause QuickerStacker to attempt to add its own right click quick stack interaction. This only takes `Use` interaction type.")
@@ -28,7 +28,7 @@ public class QuickerStackerConfig {
     public QuickerStackerConfig() {}
 
     public Set<String> getQuickStackContainers() {
-        return quickStackInteractionSet;
+        return Collections.unmodifiableSet(quickStackInteractionSet);
     }
 
 }
