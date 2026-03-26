@@ -97,7 +97,7 @@ public class QuickerStacker extends JavaPlugin {
         InteractionManager interactionManager = new InteractionManager(player, playerRef, new InteractionSimulationHandler());
         BlockType blockType = world.getBlockType(x, y, z);
         if (blockType == null) return false;
-        var event = new UseBlockEvent.Pre(InteractionType.Use, InteractionContext.forProxyEntity(interactionManager, player, ref), new Vector3i(x, y, z), blockType);
+        var event = new UseBlockEvent.Pre(InteractionType.Use, InteractionContext.forProxyEntity(interactionManager, ref, ref, ref.getStore()), new Vector3i(x, y, z), blockType);
         ref.getStore().invoke(ref, event);
         return !event.isCancelled();
     }
