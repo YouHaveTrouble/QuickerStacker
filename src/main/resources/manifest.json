@@ -10,7 +10,8 @@
       "Url": "https://yht.one"
     }
   ],
-  "ServerVersion": "${hytale.version}",
+  "Website": "https://www.curseforge.com/hytale/mods/quickerstacker",
+  "ServerVersion": "=${hytale.version}",
   "Dependencies": {},
   "OptionalDependencies": {},
   "DisabledByDefault": false,

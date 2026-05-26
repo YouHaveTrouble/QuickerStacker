@@ -5,8 +5,6 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.packets.interface_.NotificationStyle;
@@ -32,6 +30,8 @@ import com.hypixel.hytale.server.core.util.NotificationUtil;
 import me.youhavetrouble.quickerstacker.QuickerStacker;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,7 +76,6 @@ public class QuickStackToNearbyChestsInteraction extends SimpleBlockInteraction 
     /**
      * Search for nearby item containers within the given range
      * @param world World to search in
-     * @param ref
      * @param store entity store
      * @param range Range to search in
      * @return Collection of found item containers
@@ -92,13 +91,13 @@ public class QuickStackToNearbyChestsInteraction extends SimpleBlockInteraction 
                     if (!QuickerStacker.canInteractWithBlock(
                             ref,
                             world,
-                            (int) (position.getX() + x),
-                            (int) (position.getY() + y),
-                            (int) (position.getZ() + z))
+                            (int) (position.x + x),
+                            (int) (position.y + y),
+                            (int) (position.z + z))
                     ) continue;
-                    WorldChunk chunk = world.getChunk(ChunkUtil.indexChunkFromBlock(position.getX() + x, position.getZ() + z));
+                    WorldChunk chunk = world.getChunk(ChunkUtil.indexChunkFromBlock(position.x + x, position.z + z));
                     if (chunk == null) continue;
-                    Ref<ChunkStore> blockRef = chunk.getBlockComponentEntity((int) position.getX() + x, (int) position.getY() + y, (int) position.getZ() + z);
+                    Ref<ChunkStore> blockRef = chunk.getBlockComponentEntity((int) position.x + x, (int) position.y + y, (int) position.z + z);
                     if (blockRef == null) continue;
                     ItemContainerBlock containerBlock = blockRef.getStore().getComponent(blockRef, ItemContainerBlock.getComponentType());
                     if (containerBlock == null) continue;

@@ -3,7 +3,6 @@ package me.youhavetrouble.quickerstacker;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.event.EventPriority;
-import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -24,6 +23,7 @@ import me.youhavetrouble.quickerstacker.interaction.QuickStackToChestInteraction
 import me.youhavetrouble.quickerstacker.interaction.QuickStackToNearbyChestsInteraction;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.joml.Vector3i;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -94,7 +94,7 @@ public class QuickerStacker extends JavaPlugin {
         Player player = ref.getStore().getComponent(ref, Player.getComponentType());
         if (player == null) return false;
         PlayerRef playerRef = ref.getStore().getComponent(ref, PlayerRef.getComponentType());
-        InteractionManager interactionManager = new InteractionManager(player, playerRef, new InteractionSimulationHandler());
+        InteractionManager interactionManager = new InteractionManager(playerRef, new InteractionSimulationHandler());
         BlockType blockType = world.getBlockType(x, y, z);
         if (blockType == null) return false;
         var event = new UseBlockEvent.Pre(InteractionType.Use, InteractionContext.forProxyEntity(interactionManager, ref, ref, ref.getStore()), new Vector3i(x, y, z), blockType);
