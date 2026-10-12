@@ -1,6 +1,5 @@
 {
   "Interactions": {
-    "Wielding": "Double_Jump",
     "Primary": {
       "Settings": {
         "Adventure": {
@@ -28,6 +27,7 @@
         }
       ]
     },
+    "Secondary": "Block_Secondary",
     "Use": {
       "Settings": {
         "Adventure": {
@@ -91,6 +91,33 @@
         }
       ]
     },
-    "Secondary": "Block_Secondary"
+    "Ability3": {
+      "Settings": {
+        "Adventure": {
+          "Cooldown": {
+            "Id": "BlockInteraction",
+            "Cooldown": 0.35
+          }
+        },
+        "Creative": {
+          "Cooldown": {
+            "Id": "BlockInteraction_Creative",
+            "Cooldown": 0.35,
+            "ClickBypass": true
+          }
+        }
+      },
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "Next": {
+            "Type": "UseBlock",
+            "Failed": {
+              "Type": "UseEntity"
+            }
+          }
+        }
+      ]
+    }
   }
 }

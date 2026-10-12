@@ -4,7 +4,6 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.packets.interface_.NotificationStyle;
@@ -17,13 +16,13 @@ import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
 import com.hypixel.hytale.server.core.inventory.transaction.ListTransaction;
 import com.hypixel.hytale.server.core.inventory.transaction.MoveTransaction;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
@@ -95,9 +94,7 @@ public class QuickStackToNearbyChestsInteraction extends SimpleBlockInteraction 
                             (int) (position.y + y),
                             (int) (position.z + z))
                     ) continue;
-                    WorldChunk chunk = world.getChunk(ChunkUtil.indexChunkFromBlock(position.x + x, position.z + z));
-                    if (chunk == null) continue;
-                    Ref<ChunkStore> blockRef = chunk.getBlockComponentEntity((int) position.x + x, (int) position.y + y, (int) position.z + z);
+                    Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(world, (int) position.x + x, (int) position.y + y, (int) position.z + z);
                     if (blockRef == null) continue;
                     ItemContainerBlock containerBlock = blockRef.getStore().getComponent(blockRef, ItemContainerBlock.getComponentType());
                     if (containerBlock == null) continue;
